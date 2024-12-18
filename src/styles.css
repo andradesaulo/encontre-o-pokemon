@@ -1,0 +1,171 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Jersey 15", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+  color: white;
+  font-size: 1.1rem;
+}
+
+body {
+  background-color: #05345d;
+  padding: 5vh 10%;
+  height: 100vh;
+}
+#root {
+  height: 100%;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+}
+
+.score {
+  text-align: center;
+  font-size: 64px;
+  margin: 10px 0;
+}
+
+.App {
+  font-family: sans-serif;
+  text-align: center;
+}
+
+.container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.boardAbove {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 50%;
+}
+
+.boardBelow {
+  display: flex;
+  justify-content: space-around;
+  height: 40%;
+}
+
+.playerPokes {
+  display: grid;
+  grid-template-columns: repeat(13, auto);
+  grid-template-rows: repeat(3, auto);
+  gap: 18px;
+  height: 100%;
+}
+
+.playerInterface {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.announcer {
+  width: 50%;
+  background-color: #061f35;
+  border-radius: 20px;
+  padding: 35px;
+}
+
+.announcer p {
+  font-size: 1.3rem;
+  white-space: pre-line;
+  line-height: 2rem;
+}
+
+.announcerMessages {
+  height: 100%;
+  overflow: scroll;
+}
+
+.announcerMessages::-webkit-scrollbar {
+  display: none;
+}
+
+.guessInterface {
+  display: grid;
+  grid-template-columns: repeat(4, 24%);
+  grid-template-rows: repeat(3, 20%) 30%;
+  gap: 3.33% 1.33%;
+  width: 45%;
+}
+.guessInterface select {
+  background-color: rgb(129, 26, 31);
+  border: none;
+  padding-left: 10px;
+  border-radius: 5px;
+  font-size: 1.2rem;
+  transition: background-color 500ms;
+}
+
+select:disabled {
+  background-color: #9f212149;
+  transition: background-color 500ms;
+}
+
+option {
+  background-color: #750000;
+}
+
+option:first-child {
+  background-color: rgb(163, 47, 52);
+}
+
+button {
+  background-color: #571515;
+  border: none;
+  border-radius: 20px;
+  grid-column: span 2;
+  font-size: 1.2rem;
+  cursor: pointer;
+  touch-action: manipulation;
+  background-image: linear-gradient(#ca3434, #571515);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1), 0 3px 6px rgba(0, 0, 0, 0.05);
+  color: #fff;
+  transform: translate3d(0, 0, 0);
+  margin: 5px 0;
+  background
+}
+
+button:hover:disabled {
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1), 0 3px 6px rgba(0, 0, 0, 0.05);
+  background-image: none;
+}
+
+button:hover {
+  box-shadow: rgba(0, 1, 0, 0.2) 0 2px 8px;
+  background-image: linear-gradient(#ca3434d1, #571515d1);
+}
+
+button:focus {
+  box-shadow: rgba(0, 0, 0, 0.5) 0 0 0 3px;
+}
+
+button:active {
+  background-image: none;
+  box-shadow: rgba(0, 0, 0, 0.5) 0 0 0 3px;
+}
+
+button:disabled {
+  background-color: #9f212149;
+  transition: background-color 500ms;
+  background-image: none;
+  cursor: default;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1), 0 3px 6px rgba(0, 0, 0, 0.05);
+}
+
+.buttonRisking {
+  background-image: none;
+  box-shadow: rgba(0, 0, 0, 0.5) 0 0 0 3px;
+}
+
+.buttonRisking:hover {
+  box-shadow: rgba(0, 0, 0, 0.5) 0 0 0 3px;
+  background-image: none;
+  cursor: default;
+}
