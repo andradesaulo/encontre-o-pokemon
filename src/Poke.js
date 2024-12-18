@@ -20,7 +20,7 @@ const Poke = ({
   ].join(" ");
   const cardDownStyle = styles.cardDown + " " + styles.bgCardDown;
   const pokeballIcon =
-    "https://archives.bulbagarden.net/media/upload/0/00/Bag_Pok%C3%A9_Ball_SV_Sprite.png";
+    "./pokeball.png";
 
   const handleRiskingClick = () => {
     if (isRisking) {
