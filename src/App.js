@@ -1,4 +1,5 @@
 import "./styles.css";
+import styles from "./poke.module.css";
 import { useState, useEffect } from "react";
 
 import Poke from "./Poke.js";
@@ -50,7 +51,13 @@ const App = () => {
   };
 
   const handleRisk = () => {
-    setIsRisking(true);
+    if (!isRisking) {
+      setAnnouncerMessages((prevState) => [
+        "Para arriscar o Pokémon basta clicá-lo. Se não quiser arriscar agora, clique novamente no botão Arriscar Pokémon.",
+        ...prevState,
+      ]);
+    }
+    setIsRisking((prevState) => (prevState ? false : true));
   };
 
   const handlePokeRisked = (cardPlace) => {
