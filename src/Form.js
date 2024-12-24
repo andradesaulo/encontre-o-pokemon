@@ -43,6 +43,11 @@ const Form = (props) => {
         props.gameOver
           ? (e) => {
               e.preventDefault();
+              setSelectInputs((prevState) =>
+                prevState.map((input) => {
+                  return { ...input, disabled: false, asked: false };
+                })
+              );
               props.handleReset();
             }
           : (e) => {
@@ -71,6 +76,7 @@ const Form = (props) => {
               ? true
               : input.disabled
           }
+          resetGame={props.resetGame}
         />
       ))}
       <button
