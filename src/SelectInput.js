@@ -1,4 +1,6 @@
-const SelectInput = ({ attribute, handleChange, disabled }) => {
+import { useEffect } from "react";
+
+const SelectInput = ({ attribute, handleChange, disabled, resetGame }) => {
   let selectValues;
   let selectNames;
   let selectPlaceholder;
@@ -115,6 +117,13 @@ const SelectInput = ({ attribute, handleChange, disabled }) => {
           break;
       }
   }
+
+  useEffect(() => {
+    if (resetGame) {
+      document.querySelector("#" + attribute).value = "";
+    }
+  }, [resetGame]);
+
   return (
     <select
       id={attribute}
