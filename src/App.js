@@ -168,6 +168,7 @@ const App = () => {
           isRisking={isRisking}
           gameOver={gameOver}
           handleReset={handleReset}
+          resetGame={resetGame}
         />
         <Announcer messages={announcerMessages} />
       </div>
