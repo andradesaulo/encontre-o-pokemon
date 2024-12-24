@@ -82,7 +82,8 @@ const Form = (props) => {
       <button
         type="submit"
         disabled={
-          selectInputs.filter((input) => input.asked).length === 12 ||
+          (selectInputs.filter((input) => input.asked).length === 12 &&
+            !props.gameOver) ||
           props.isRisking
             ? true
             : false
