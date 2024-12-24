@@ -17,9 +17,11 @@ const Announcer = ({ messages }) => {
   return (
     <div className="announcer">
       <div className="announcerMessages">
-        <AnnouncerMessage key={messages[0]} message={messages[0]} />
-        {messages.slice(1, messages.length).map((msg) => (
-          <p style={{ opacity: 0.5 }}>{msg}</p>
+        <AnnouncerMessage key={messages.length} message={messages[0]} />
+        {messages.slice(1, messages.length).map((msg, index) => (
+          <p key={index} style={{ opacity: 0.5 }}>
+            {msg}
+          </p>
         ))}
       </div>
     </div>
