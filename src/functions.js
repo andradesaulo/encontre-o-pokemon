@@ -82,7 +82,7 @@ const gameTurn = (pokes, target, attribute) => {
     attrCustomMessage =
       "tem " +
       (attribute.name === "hp"
-        ? "HP"
+        ? "vida"
         : attribute.name === "attack"
         ? "ataque"
         : attribute.name === "defense"
