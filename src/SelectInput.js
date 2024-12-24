@@ -16,7 +16,7 @@ const SelectInput = ({ attribute, handleChange, disabled, resetGame }) => {
       selectNames = [">= 0kg e < 150kg", ">= 150kg e < 300kg", ">= 300kg"];
       break;
     case "hp":
-      selectPlaceholder = "HP";
+      selectPlaceholder = "Vida";
       selectValues = ["0_50", "50_100", "100_150", "150_Infinity"];
       selectNames = [
         ">= 0 e < 50",
@@ -133,7 +133,9 @@ const SelectInput = ({ attribute, handleChange, disabled, resetGame }) => {
     >
       <option value="">{selectPlaceholder}</option>
       {selectValues.map((value, i) => (
-        <option value={value}>{selectNames[i]}</option>
+        <option key={i} value={value}>
+          {selectNames[i]}
+        </option>
       ))}
     </select>
   );
