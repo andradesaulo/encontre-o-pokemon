@@ -7,7 +7,8 @@ const gameTurn = (pokes, target, attribute) => {
     gameOver: false,
   };
 
-  let comparisonFunction, attrCustomMessage;
+  let comparisonFunction;
+  let attrCustomMessage = {};
 
   if (
     [
@@ -36,33 +37,46 @@ const gameTurn = (pokes, target, attribute) => {
       case "type":
         comparisonFunction = (poke) =>
           poke.types.some((e) => e.type.name === attribute.value);
-        attrCustomMessage = "é do tipo ";
+        attrCustomMessage.singular = "é do tipo ";
+        attrCustomMessage.plural = "são do tipo";
         break;
       case "immune_to":
         comparisonFunction = (poke) => (dmg_from(poke) === 0 ? true : false);
-        attrCustomMessage = "é imune a dano do tipo ";
+        attrCustomMessage.singular = "é imune a dano do tipo ";
+        attrCustomMessage.plural = "são imunes a dano do tipo ";
         break;
       case "resistant_to":
         comparisonFunction = (poke) =>
           dmg_from(poke) > 0 && dmg_from(poke) < 1 ? true : false;
-        attrCustomMessage = "é resistente a dano do tipo ";
+        attrCustomMessage.singular = "é resistente a dano do tipo ";
+        attrCustomMessage.plural = "são resistentes a dano do tipo ";
         break;
       case "weak_to":
         comparisonFunction = (poke) => (dmg_from(poke) > 1 ? true : false);
-        attrCustomMessage = "tem fraqueza a dano do tipo ";
+        attrCustomMessage.singular = "tem fraqueza a dano do tipo ";
+        attrCustomMessage.plural = "têm fraqueza a dano do tipo ";
         break;
       case "super_effective_to":
         comparisonFunction = (poke) => (dmg_to(poke) > 1 ? true : false);
-        attrCustomMessage = "dá dano super efetivo contra Pokémons do tipo ";
+        attrCustomMessage.singular =
+          "dá dano super efetivo contra Pokémons do tipo ";
+        attrCustomMessage.plural =
+          "dão dano super efetivo contra Pokémons do tipo ";
         break;
       case "not_effective_to":
         comparisonFunction = (poke) =>
           dmg_to(poke) > 0 && dmg_to(poke) < 1 ? true : false;
-        attrCustomMessage = "dá dano pouco efetivo contra Pokémons do tipo ";
+        attrCustomMessage.singular =
+          "dá dano pouco efetivo contra Pokémons do tipo ";
+        attrCustomMessage.plural =
+          "dão dano pouco efetivo contra Pokémons do tipo ";
         break;
     }
 
-    attrCustomMessage += attribute.selectedOptions[0].innerText.toLowerCase();
+    attrCustomMessage.singular +=
+      attribute.selectedOptions[0].innerText.toLowerCase();
+    attrCustomMessage.plural +=
+      attribute.selectedOptions[0].innerText.toLowerCase();
   } else {
     comparisonFunction = (poke) => {
       let statValue;
@@ -79,7 +93,7 @@ const gameTurn = (pokes, target, attribute) => {
       );
     };
 
-    attrCustomMessage =
+    attrCustomMessage.singular =
       "tem " +
       (attribute.name === "hp"
         ? "vida"
@@ -94,14 +108,35 @@ const gameTurn = (pokes, target, attribute) => {
         : "peso") +
       " >= ";
 
-    attrCustomMessage +=
+    attrCustomMessage.plural =
+      "têm " +
+      (attribute.name === "hp"
+        ? "vida"
+        : attribute.name === "attack"
+        ? "ataque"
+        : attribute.name === "defense"
+        ? "defesa"
+        : attribute.name === "speed"
+        ? "velocidade"
+        : attribute.name === "height"
+        ? "altura"
+        : "peso") +
+      " >= ";
+
+    attrCustomMessage.singular +=
+      parseFloat(attribute.value.split("_")[0]) +
+      (parseFloat(attribute.value.split("_")[1]) === Infinity
+        ? ""
+        : " e < " + parseFloat(attribute.value.split("_")[1]));
+
+    attrCustomMessage.plural +=
       parseFloat(attribute.value.split("_")[0]) +
       (parseFloat(attribute.value.split("_")[1]) === Infinity
         ? ""
         : " e < " + parseFloat(attribute.value.split("_")[1]));
   }
 
-  let temAtributo = true;
+  let pokePodeAbaixar = false;
   let pokesAbaixados, msg;
 
   if (comparisonFunction(target)) {
@@ -109,7 +144,7 @@ const gameTurn = (pokes, target, attribute) => {
       if (comparisonFunction(poke)) {
         return { ...poke };
       } else {
-        temAtributo = false;
+        pokePodeAbaixar = true;
         return { ...poke, visible: false };
       }
     });
@@ -118,7 +153,7 @@ const gameTurn = (pokes, target, attribute) => {
       response.comparedPokes.filter((poke) => !poke.visible).length -
       pokes.filter((poke) => !poke.visible).length;
 
-    msg = `O Pokémon Misterioso ${attrCustomMessage}!\n`;
+    msg = `O Pokémon Misterioso ${attrCustomMessage.singular}!\n`;
     if (pokesAbaixados > 0) {
       msg +=
         `${pokesAbaixados} Pokémo${pokesAbaixados > 1 ? "ns" : "n"} ` +
@@ -127,14 +162,16 @@ const gameTurn = (pokes, target, attribute) => {
           pokesAbaixados > 1 ? "os" : "o"
         }. `;
       msg += pokesAbaixados > 5 ? "Arrasou! 😄" : "Boa! 😄";
-    } else {
+    } else if (pokePodeAbaixar) {
       msg +=
         "Porém os Pokémons que seriam abaixados já estavam abaixados. Que pena! 😞";
+    } else {
+      msg += `Porém todos os outros Pokémons também ${attrCustomMessage.plural}. Nenhum Pokémon foi abaixado desta vez. Que pena! 😞`;
     }
   } else {
     response.comparedPokes = pokes.map((poke) => {
       if (comparisonFunction(poke)) {
-        temAtributo = false;
+        pokePodeAbaixar = true;
         return { ...poke, visible: false };
       } else {
         return { ...poke };
@@ -145,7 +182,7 @@ const gameTurn = (pokes, target, attribute) => {
       response.comparedPokes.filter((poke) => !poke.visible).length -
       pokes.filter((poke) => !poke.visible).length;
 
-    msg = `O Pokémon Misterioso não ${attrCustomMessage}.\n`;
+    msg = `O Pokémon Misterioso não ${attrCustomMessage.singular}.\n`;
     if (pokesAbaixados > 0) {
       msg += "Porém " + pokesAbaixados + " ";
       msg +=
@@ -155,9 +192,11 @@ const gameTurn = (pokes, target, attribute) => {
           pokesAbaixados > 1 ? "os" : "o"
         }. `;
       msg += pokesAbaixados > 5 ? "Arrasou! 😄" : "Boa! 😄";
-    } else {
+    } else if (pokePodeAbaixar) {
       msg +=
         "Que pena! 😞 Os Pokémons que seriam abaixados já estavam abaixados.";
+    } else {
+      msg += `Todos os outros Pokémons também não ${attrCustomMessage.plural}. Nenhum Pokémon foi abaixado desta vez. Que pena! 😞`;
     }
   }
 
