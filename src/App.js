@@ -53,7 +53,7 @@ const App = () => {
   const handleRisk = () => {
     if (!isRisking) {
       setAnnouncerMessages((prevState) => [
-        "Para arriscar o Pokémon basta clicá-lo. Se não quiser arriscar agora, clique novamente no botão Arriscar Pokémon.",
+        "Para arriscar um Pokémon basta clicá-lo. Se não quiser arriscar agora, clique novamente no botão Arriscar Pokémon.",
         ...prevState,
       ]);
     }
